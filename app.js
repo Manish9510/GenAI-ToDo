@@ -1,5 +1,6 @@
 const input = document.querySelector("input");
 const list = document.getElementById("list");
+let editMode = null;
 
 async function getTaskfromGroq() {
   if (input.value == "") {
@@ -44,7 +45,9 @@ async function getTaskfromGroq() {
     tasks.forEach((task) => {
       const newLi = document.createElement("li"); // <li></li>
       newLi.id = "task";
-      newLi.innerHTML = task;
+      newLi.innerHTML = `${task}` 
+          `button onclick='deleteTask(event)' style='margin-left: auto; background: red;'>Delete</button>
+          <button onclick='editTask(event)' style='background: orange'>Edit</button>`;
       list.appendChild(newLi);
     });
 
@@ -56,4 +59,27 @@ async function getTaskfromGroq() {
 
 function clearAll(){
     list.innerHTML = "";
+}
+
+function addTask() {
+  if (input.value === "") {
+      alert("Please Enter Task");
+      return;
+  }
+
+  if (editMode) {
+      editMode.firstChild.nodeValue = input.value; 
+      editMode = null;
+      document.getElementById('add-task').innerText = "Add Task"; 
+  } else {
+      const newLi = document.createElement('li');
+      newLi.id = "task";
+      newLi.innerHTML = `${input.value} 
+          <button onclick='deleteTask(event)' style='margin-left: auto; background: red;'>Delete</button>
+          <button onclick='editTask(event)' style='background: orange'>Edit</button>`;
+
+      list.appendChild(newLi);
+  }
+
+  input.value = "";  
 }
