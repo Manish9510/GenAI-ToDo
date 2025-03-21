@@ -45,9 +45,9 @@ async function getTaskfromGroq() {
     tasks.forEach((task) => {
       const newLi = document.createElement("li"); // <li></li>
       newLi.id = "task";
-      newLi.innerHTML = `${task}` 
-          `button onclick='deleteTask(event)' style='margin-left: auto; background: red;'>Delete</button>
-          <button onclick='editTask(event)' style='background: orange'>Edit</button>`;
+      newLi.innerHTML = `${task}
+      <button onclick='deleteTask(event)' style='margin-left: auto; background: red;'>Delete</button>
+       <button onclick='editTask(event)' style='background: orange'>Edit</button>`;
       list.appendChild(newLi);
     });
 
@@ -82,4 +82,17 @@ function addTask() {
   }
 
   input.value = "";  
+}
+
+function deleteTask(event) {
+  if (confirm("Are you sure you want to delete this task?")) {
+      event.target.parentElement.remove();
+  }
+}
+
+function editTask(event) {
+  let li = event.target.parentElement;
+  input.value = li.firstChild.nodeValue.trim();
+  document.getElementById('add-task').innerText = "Update Task";
+  editMode = li;
 }
